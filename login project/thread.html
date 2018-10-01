@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+	<title>Map&lt;T&gt; (and other stdlib containers) | Agenda</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+	<link rel="stylesheet" href="style/global.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="style/thread.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="search-wrapper">
+	<div class="bg"></div>
+	<div class="search">
+		<div class="input-container"><input type="search" placeholder="Search Agenda..."></div>
+		<i class="fa fa-search" aria-hidden="true"></i>
+	</div>
+</div>
+
+<div class="thread">
+	<div class="title"><b>Subject:</b> Map&lt;T&gt; (and other stdlib containers)</div>
+	<div class="post">
+		<div class="wrapper">
+			<div class="user-info">
+				<span class="name">Tom Anderson</span>
+				<img class="photo" src="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg">
+			</div>
+			<div class="text">
+				<p>We were discussing cases where we would need an ordered map. I needed one when I was working on documentation generation.</p>
+				<p>Basically, I needed:</p>
+				<p><code>method_name : url</code></p>
+				<p>And method_name needed to be alphabetically sorted. If I wrote it in, I'm sure I could hack it together with arrays or something, but it's not ideal.</p>
+			</div>
+		</div>
+		<div class="post-info">
+			<i class="fa fa-link" aria-hidden="true"></i>
+		</div>
+	</div>
+	<div class="post">
+		<div class="wrapper">
+			<div class="user-info">
+				<span class="name">Tom Anderson</span>
+				<img class="photo" src="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg">
+			</div>
+			<div class="text">
+				<p>A couple more things about this:</p>
+				<p>1. Map&lt;K, V&gt; would go really well with IComparable&lt;T&gt; for sorting keys. Yay!</p>
+				<p>2. The main obstacle is the shorthand literal syntax. The {{ ... }} syntax is unavailable. I can't release 0.7.1 without it, but I don't think it's as easy as parsing {{ ... }} and adding some lines to the type checker to make its type Dictionary&lt;T&gt; because we need to determine if {{ ... }} *should* mean Dictionary&lt;T&gt;.</p>
+				<p>For what it's worth, I think it <code>{{ ... }}</code> should indeed be Dictionary&lt;T&gt; (and not Map, etc). My reasons are:</p>
+				<p>A. { ... } should remain EXTERNAL. This is the syntax they use for JSON and JavaScript objects, and JavaScript objects are just too complex for us to make it a type.</p>
+				<p>B. Dictionary&lt;T&gt; is a type-safe equivalent of JavaScript's "object" (well... almost, Dictionary&lt;T&gt; also has no prototypes - which is always a win). In this sense, it has a very fast underlying implementation. If we're going to provide a convenience syntax, we should give them the fastest container.</p>
+				<p>C. Dictionary&lt;T&gt; would probably be the most used container (together with Array&lt;T&gt; which already has the [ ... ] syntax). You mentioned once that Python gets away with just arrays + dicts. So I think the combination of [ ... ] (arrays), { ... } (external, JSON, etc), and {{ ... }} (Dictionary&lt;T&gt;) will handle the most use cases.</p>
+				<p>D. Further to point C above, even if we implemented classical data structures (Set, Queue, Stack, etc), none of those are going to be used as much as Dictionary&lt;T&gt;.</p>
+				<p>My final concern with the {{ ... }} is with the keys. If they use an identifier (instead of string), how will the type checker handle it?</p>
+				<pre>
+{{
+    "foo": true // This is obviously Map&lt;string, bool&gt;
+}}
+				</pre>
+				<p>But what about...</p>
+				<pre>
+{{
+    foo: true // This is Map&lt;..., bool&gt; but what is ...? Resolve 'foo' as identifier? Stay consistent with JavaScript object literal design and treat it as string?
+}}
+				</pre>
+				<p>3. Finally, we need a data structure that is a hash map with arbitrary key types (rather than just strings).</p>
+				<p>FYI, I'm just brainstorming above so I get all my thoughts down. I haven't actually put together a design. Open to your input.</p>
+			</div>
+		</div>
+		<div class="post-info">
+			<i class="fa fa-link" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.6/SmoothScroll.min.js"></script>
+</body>
+</html>

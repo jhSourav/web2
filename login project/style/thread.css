@@ -1,0 +1,86 @@
+html {
+	margin: 0;
+}
+body {
+	margin: 0;
+	background: url("../assets/images/bg-content.png");
+}
+
+.thread {
+	background: #fff;
+	margin: 0.5em;
+}
+.thread .title {
+	font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+	font-size: 1.2em;
+	color: #fafafa;
+	text-shadow: 1px 2px #607B8B;
+	padding: 0.8em;
+	background: #8DB6CD;
+	border-bottom: 3px solid #517693;
+}
+
+.thread .post {
+	overflow: hidden;
+	background: #f7f7f2;
+}
+.thread .post .user-info {
+	background: #e0e0e0;
+	width: 250px;
+	text-align: center;
+	padding: 1em 0;
+	float: left;
+
+	padding-bottom: 500em;
+	margin-bottom: -500em;
+}
+.thread .post .user-info .name {
+	font-family: "Roboto", Tahoma, Geneva, sans-serif;
+	font-weight: 300;
+	color: #404040;
+	display: block;
+	margin-bottom: 0.5em;
+}
+.thread .post .user-info .photo {
+	border-radius: 50%;
+	width: 75px;
+}
+.thread .post .text {
+	float: none;
+	padding-left: 0.8em;
+	overflow: hidden;
+
+	font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+	font-weight: 300;
+
+	padding-bottom: 500em;
+	margin-bottom: -500em;
+}
+.thread .post .wrapper {
+	overflow: hidden;
+	border-bottom: 1px solid #c0c0c0;
+}
+.thread .post .post-info {
+	display: none;
+}
+@media only screen and (max-width: 767px) {
+	.thread .post .user-info {
+		width: 100%;
+		float: none;
+		border-bottom: 1px solid #c0c0c0;
+		margin-bottom: 0;
+		padding-bottom: 1em;
+	}
+	.thread .post .text {
+		float: none;
+		background: transparent;
+		padding-bottom: 0;
+		margin-bottom: 0;
+	}
+	.thread .post .wrapper {
+		border-bottom: 3px solid #517693;
+	}
+	.thread .post pre {
+		overflow: auto;
+	}
+}
